@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--color-base: 249 249 249;
+		--color-base-100: 243 243 243;
+		--color-base-200: 239 240 241;
+		--color-base-300: 211 214 218;
+		--color-on-base: 38 43 60;
+	}
+
+	html.dark * {
+		--color-base: 38 43 60;
+		--color-base-100: 43 48 65;
+		--color-base-200: 48 53 70;
+		--color-base-300: 86 95 126;
+		--color-on-base: 249 249 249;
+	}
+}
+
+body {
+	@apply bg-base text-on-base;
+	font-family: 'Poppins', sans-serif;
+}
+
+#root {
+	min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+	@apply w-2 h-2;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	@apply bg-transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	@apply bg-on-base/80 rounded-full transition;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	@apply bg-on-base;
+}
