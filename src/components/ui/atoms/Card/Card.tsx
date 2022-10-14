@@ -13,6 +13,8 @@ interface CardPops {
 	children?: undefined | React.ReactNode | React.ReactNode[]
 	className?: string
 	densed?: boolean
+	outlined?: boolean
+	rounded?: boolean
 	shadow?: boolean
 	side?: boolean
 	style?: React.CSSProperties
@@ -29,6 +31,8 @@ const Card = (props: CardPops) => {
 		children,
 		className,
 		densed,
+		outlined,
+		rounded,
 		shadow,
 		side,
 		style,
@@ -54,6 +58,8 @@ const Card = (props: CardPops) => {
 	const cardClass = classNames('card', bgColor, className, {
 		'card-side': side,
 		'card-densed': densed,
+		'card-outlined': outlined,
+		'card-rounded': rounded,
 		'image-full': bgImage,
 		'shadow-xl': shadow,
 	})

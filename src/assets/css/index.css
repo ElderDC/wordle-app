@@ -121,6 +121,12 @@ body {
 	.card.card-densed .card-footer {
 		@apply px-4 pb-4;
 	}
+	.card.card-outlined {
+		@apply border-2 border-solid;
+	}
+	.card.card-rounded {
+		@apply rounded-2xl;
+	}
 	.card.image-full {
 		@apply grid;
 	}
