@@ -47,3 +47,120 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	@apply bg-on-base;
 }
+
+@layer components {
+	/* Button component */
+	.btn {
+		@apply h-12 px-6 flex flex-wrap items-center justify-center
+		border-current border-solid bg-black text-white text-sm
+		uppercase font-bold leading-none rounded transition;
+	}
+	.btn.btn-icon {
+		@apply w-12;
+	}
+	.btn.btn-outlined {
+		@apply bg-transparent border-2;
+	}
+	.btn.btn-text {
+		@apply bg-transparent;
+	}
+	.btn.btn-rounded {
+		@apply rounded-full;
+	}
+	.btn.btn-xs {
+		@apply h-8 px-4 text-xs;
+	}
+	.btn.btn-sm {
+		@apply h-10 px-4 text-xs;
+	}
+	.btn.btn-md {
+		@apply h-12 px-6 text-sm;
+	}
+	.btn.btn-lg {
+		@apply h-14 px-6 text-sm;
+	}
+	.btn.btn-xl {
+		@apply h-16 px-8 text-lg;
+	}
+	.btn.btn-icon.btn-xs {
+		@apply w-8;
+	}
+	.btn.btn-icon.btn-sm {
+		@apply w-10;
+	}
+	.btn.btn-icon.btn-md {
+		@apply w-12;
+	}
+	.btn.btn-icon.btn-lg {
+		@apply w-14;
+	}
+	.btn.btn-icon.btn-xl {
+		@apply w-16;
+	}
+
+	/* Card component */
+
+	.card {
+		@apply relative flex flex-col overflow-hidden rounded;
+	}
+	.card-body {
+		@apply relative flex flex-auto flex-col p-8 gap-2;
+	}
+	.card-head {
+		@apply px-8 pt-8;
+	}
+	.card-footer {
+		@apply px-8 pb-8;
+	}
+	.card.card-densed .card-body {
+		@apply p-4;
+	}
+	.card.card-densed .card-head {
+		@apply px-4 pt-4;
+	}
+	.card.card-densed .card-footer {
+		@apply px-4 pb-4;
+	}
+	.card.image-full {
+		@apply grid;
+	}
+	.card.image-full:before,
+	.card.image-full > * {
+		@apply col-start-1 row-start-1;
+	}
+	.card.image-full > .card-body {
+		@apply relative z-20;
+	}
+	.card.image-full > figure img {
+		@apply h-full object-cover;
+	}
+	.card.image-full > div {
+		@apply relative z-20 opacity-100;
+	}
+
+	/* Tabs component */
+
+	.tabs {
+		@apply flex flex-wrap items-end;
+	}
+	.tab {
+		@apply relative inline-flex cursor-pointer select-none
+		flex-wrap items-center justify-center text-center
+		h-8 px-4 text-sm text-on-base/50;
+	}
+	.tab-xs {
+		@apply h-5 text-xs;
+	}
+	.tab-sm {
+		@apply h-6 text-sm;
+	}
+	.tab-lg {
+		@apply h-12 text-lg;
+	}
+	.tab-bordered {
+		@apply border-solid border-b-2 border-on-base/20;
+	}
+	.tab.tab-active {
+		@apply text-on-base;
+	}
+}
