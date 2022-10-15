@@ -1,1 +1,1 @@
-export { default } from './WordleWord';
+export { default } from './WordleWord'
