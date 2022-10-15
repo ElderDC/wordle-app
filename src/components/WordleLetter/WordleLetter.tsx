@@ -18,7 +18,7 @@ const WordleLetter = (props: WordleLetterProps) => {
         if (!value) return 'bg-transparent'
 		if (value === letter) return 'bg-success'
         if (word.includes(value)) return 'bg-warning'
-        if (letter === '.') return 'bg-transparent'
+        if (letter === '*') return 'bg-transparent'
         return 'bg-muted'
 	}
 
