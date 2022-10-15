@@ -180,6 +180,6 @@ body {
 		@apply block visible opacity-100;
 	}
 	.modal__content {
-		@apply my-12 flex justify-center;
+		@apply min-h-full py-12 flex justify-center;
 	}
 }

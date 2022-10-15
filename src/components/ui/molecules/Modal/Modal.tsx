@@ -9,7 +9,7 @@ type Handler = () => void
 interface ModalPops {
 	children?: undefined | React.ReactNode | React.ReactNode[]
 	className?: string
-	bgColor?: string
+	overlayColor?: string
 	style?: React.CSSProperties
 	value?: boolean
 	onClose?: Handler
@@ -22,7 +22,7 @@ const Modal = (props: ModalPops) => {
 	const {
 		children,
 		className,
-		bgColor = 'bg-black/50',
+		overlayColor = 'bg-black/50',
 		style,
 		value = false,
 		onClose = noop,
@@ -56,7 +56,7 @@ const Modal = (props: ModalPops) => {
 		internalValue ? handleOpen() : handleClose()
 	}, [internalValue])
 
-	const modalClass = classNames('modal', bgColor, className, {
+	const modalClass = classNames('modal', overlayColor, className, {
 		show: internalValue,
 	})
 
@@ -66,7 +66,7 @@ const Modal = (props: ModalPops) => {
 		<ReactPortal wrapperId='modal-root'>
 			<div className={modalClass} style={style} onClick={handleOverlayClick}>
 				<div className={modalContentClass}>
-					<div onClick={handleContentClick}>
+					<div className='flex items-center' onClick={handleContentClick}>
 						{children}
 					</div>
 				</div>
