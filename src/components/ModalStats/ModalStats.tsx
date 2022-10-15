@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux'
 import {
 	Button,
 	Card,
@@ -7,6 +8,7 @@ import {
 	Text,
 } from '@/components/ui/atoms'
 import { Modal } from '@/components/ui/molecules'
+import { RootState } from '@/redux/store'
 
 const noop = () => {}
 
@@ -19,6 +21,12 @@ interface ModalStatsProps {
 
 const ModalStats = (props: ModalStatsProps) => {
 	const { value = false, onClose = noop } = props
+
+	const {
+		lastTime,
+		totalTries,
+		successTries
+	} = useSelector((state: RootState) => state.wordle)
 
 	const handleClose = (): void => {
 		onClose()
@@ -36,13 +44,13 @@ const ModalStats = (props: ModalStatsProps) => {
 					<div className='flex justify-around mb-8'>
 						<div className='flex flex-col items-center justify-center'>
 							<Text size='h5' weight='bold'>
-								8
+								{ totalTries }
 							</Text>
 							<Text weight='bold'>Jugadas</Text>
 						</div>
 						<div className='flex flex-col items-center justify-center'>
 							<Text size='h5' weight='bold'>
-								2
+								{ successTries }
 							</Text>
 							<Text weight='bold'>Victorias</Text>
 						</div>
@@ -50,7 +58,7 @@ const ModalStats = (props: ModalStatsProps) => {
 					<div className='flex flex-col items-center justify-center space-y-4'>
 						<Text transform='uppercase'>Siguiente partida</Text>
 						<Text size='h6' weight='bold'>
-							04:10
+							{ lastTime }
 						</Text>
 					</div>
 				</CardBody>
