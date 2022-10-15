@@ -5,17 +5,32 @@ interface WordleLetterProps {
 	letter: string
 	value: string
 	word: string
-	example?: boolean
+	example?: 'success' | 'bad-position' | 'failed'
+	validated?: boolean
 }
 
 const WordleLetter = (props: WordleLetterProps) => {
-	const { letter, value, word, example = false } = props
+	const {
+		letter,
+		value,
+		word,
+		example = false,
+		validated = false,
+	} = props
+
+	const exampleOptions = {
+		success: 'bg-success',
+		'bad-position': 'bg-warning',
+		failed: 'bg-muted'
+	}
 
 	const getWordStatus = (): string => {
+		if (letter === '*') return 'bg-transparent'
+		if (example) return exampleOptions[example]
+		if (!validated) return 'bg-on-base/10'
 		if (!value) return 'bg-on-base/10'
 		if (value === letter) return 'bg-success'
 		if (word.includes(value)) return 'bg-warning'
-		if (letter === '*') return 'bg-transparent'
 		return 'bg-muted'
 	}
 

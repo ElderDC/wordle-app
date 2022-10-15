@@ -4,11 +4,17 @@ import WordleLetter from '@/components/WordleLetter'
 interface WordleWordProps {
 	value: string
 	word: string
-	example?: boolean
+	example?: 'success' | 'bad-position' | 'failed'
+	validated?: boolean
 }
 
 const WordleWord = (props: WordleWordProps) => {
-	const { value = '', word = '', example = false } = props
+	const {
+		value = '',
+		word = '',
+		example,
+		validated = false,
+	} = props
 
 	const wordleWordClass = classNames('flex items-center justify-center gap-2')
 
@@ -23,6 +29,7 @@ const WordleWord = (props: WordleWordProps) => {
 					example={example}
 					letter={letter}
 					value={valueArray[index]}
+					validated={validated}
 					word={word}
 				/>
 			))}

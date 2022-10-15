@@ -41,17 +41,17 @@ const ModalInfo = (props: ModalInfoProps) => {
 						qué tan cerca estás de acertar la palabra.
 					</Text>
 					<Text weight='bold'>Ejemplo</Text>
-					<WordleWord example value='gatos' word='g****' />
+					<WordleWord value='gatos' word='g****' example="success" />
 					<Text>
 						La letra <Text weight='bold'>G</Text> esta en la palabra y posición
 						correcta.
 					</Text>
-					<WordleWord example value='vocal' word='c****' />
+					<WordleWord value='vocal' word='**c**' example="bad-position" />
 					<Text>
 						La letra <Text weight='bold'>C</Text> esta en la palabra pero en la
 						posición incorrecta.
 					</Text>
-					<WordleWord example value='canto' word='****u' />
+					<WordleWord value='canto' word='****u' example="failed" />
 					<Text>
 						La letra <Text weight='bold'>O</Text> no esta en la palabra.
 					</Text>
