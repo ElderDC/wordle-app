@@ -67,6 +67,9 @@ body {
 	.btn.btn-rounded {
 		@apply rounded-full;
 	}
+	.btn.btn-disabled {
+		@apply pointer-events-none opacity-50 bg-base-300 text-on-base;
+	}
 	.btn.btn-xs {
 		@apply h-8 px-4 text-xs;
 	}

@@ -12,6 +12,7 @@ interface ButtonProps {
 	children: undefined | React.ReactNode | React.ReactNode[]
 	rounded?: boolean
 	className?: string
+	disabled?: boolean
 	href?: string
 	ghost?: boolean
 	outlined?: boolean
@@ -45,6 +46,7 @@ const Button = React.forwardRef<any, ButtonProps>(function Button(props, ref) {
 		children,
 		rounded,
 		className,
+		disabled = false,
 		href,
 		ghost = false,
 		outlined = false,
@@ -64,15 +66,19 @@ const Button = React.forwardRef<any, ButtonProps>(function Button(props, ref) {
 		return sizeOptions[size]
 	}
 	const handleClick = (event: React.MouseEvent): void => {
+		if (disabled) return
 		onClick(event)
 	}
 	const handleDoubleClick = (event: React.MouseEvent): void => {
+		if (disabled) return
 		onDoubleClick(event)
 	}
 	const handleMouseDown = (event: React.MouseEvent): void => {
+		if (disabled) return
 		onMouseDown(event)
 	}
 	const handleMouseUp = (event: React.MouseEvent): void => {
+		if (disabled) return
 		onMouseUp(event)
 	}
 
@@ -83,6 +89,7 @@ const Button = React.forwardRef<any, ButtonProps>(function Button(props, ref) {
 		'btn-outlined': outlined,
 		'btn-icon': icon,
 		'btn-text': text,
+		'btn-disabled': disabled,
 		'overflow-hidden': true,
 		relative: true,
 	})
