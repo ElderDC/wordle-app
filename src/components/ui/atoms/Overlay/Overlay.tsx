@@ -15,7 +15,7 @@ interface OverlayProps {
 }
 
 const Overlay = (props: OverlayProps) => {
-    const {
+	const {
 		children,
 		className,
 		color = 'bg-black/50',
@@ -23,25 +23,25 @@ const Overlay = (props: OverlayProps) => {
 		onClick = noop,
 	} = props
 
-    const handleClick = (event: React.MouseEvent): void => {
+	const handleClick = (event: React.MouseEvent): void => {
 		event.stopPropagation()
 		onClick()
 	}
 
-    const overlayClass = classNames('overlay', color, className)
+	const overlayClass = classNames('overlay', color, className)
 
-    return (
-        <motion.div
-            className={overlayClass}
-            style={style}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleClick}
-        >
-            {children}
-        </motion.div>
-    )
+	return (
+		<motion.div
+			className={overlayClass}
+			style={style}
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+			onClick={handleClick}
+		>
+			{children}
+		</motion.div>
+	)
 }
 
 export default Overlay

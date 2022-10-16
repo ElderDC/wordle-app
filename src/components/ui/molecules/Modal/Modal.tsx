@@ -19,25 +19,25 @@ interface ModalPops {
 const noop = () => {}
 
 const dropIn = {
-    hidden: {
-		y: "-100vh",
+	hidden: {
+		y: '-100vh',
 		opacity: 0,
-    },
-    visible: {
-		y: "0",
+	},
+	visible: {
+		y: '0',
 		opacity: 1,
 		transition: {
 			duration: 0.1,
-			type: "spring",
+			type: 'spring',
 			damping: 25,
 			stiffness: 500,
 		},
-    },
-    exit: {
-		y: "100vh",
+	},
+	exit: {
+		y: '100vh',
 		opacity: 0,
-    },
-};
+	},
+}
 
 const Modal = (props: ModalPops) => {
 	const {
@@ -79,14 +79,14 @@ const Modal = (props: ModalPops) => {
 	return (
 		<ReactPortal wrapperId='modal-root'>
 			<AnimatePresence>
-				{ internalValue && (
+				{internalValue && (
 					<Overlay color={overlayColor} onClick={handleOverlayClick}>
 						<div className={modalClass}>
 							<motion.div
 								variants={dropIn}
-								initial="hidden"
-								animate="visible"
-								exit="exit"
+								initial='hidden'
+								animate='visible'
+								exit='exit'
 								className='flex items-center'
 								onClick={handleContentClick}
 							>

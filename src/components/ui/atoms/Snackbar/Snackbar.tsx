@@ -1,95 +1,95 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import classNames from "classnames"
-import ReactPortal from "@/components/ReactPortal"
+import classNames from 'classnames'
+import ReactPortal from '@/components/ReactPortal'
 
 type Handler = () => void
 
 interface SnackbarProps {
-    children?: undefined | React.ReactNode | React.ReactNode[]
-    className?: string
-    color?: string
-    timeout?: number
-    value?: boolean
-    onClose?: Handler
-    onOpen?: Handler
+	children?: undefined | React.ReactNode | React.ReactNode[]
+	className?: string
+	color?: string
+	timeout?: number
+	value?: boolean
+	onClose?: Handler
+	onOpen?: Handler
 }
 
 const noop = () => {}
 
 const dropIn = {
-    hidden: {
-		y: "100%",
+	hidden: {
+		y: '100%',
 		opacity: 0,
-    },
-    visible: {
-		y: "0",
+	},
+	visible: {
+		y: '0',
 		opacity: 1,
 		transition: {
 			duration: 0.1,
-			type: "spring",
+			type: 'spring',
 			damping: 25,
 			stiffness: 500,
 		},
-    },
-    exit: {
-		y: "100%",
+	},
+	exit: {
+		y: '100%',
 		opacity: 0,
-    },
-};
+	},
+}
 
 const Snackbar = (props: SnackbarProps) => {
-    const {
+	const {
 		children,
-        className,
-        color,
-        timeout = 1000,
+		className,
+		color,
+		timeout = 1000,
 		value = false,
 		onClose = noop,
 		onOpen = noop,
 	} = props
 
-    const [internalValue, setInternalValue] = useState<boolean>(value)
+	const [internalValue, setInternalValue] = useState<boolean>(value)
 
-    const handleClose = (): void => {
+	const handleClose = (): void => {
 		onClose()
 	}
 	const handleOpen = (): void => {
 		onOpen()
 	}
 
-    useEffect(() => {
-        if (value) {
-            setInternalValue(true)
-            setTimeout(() => setInternalValue(false), timeout)
-        }
+	useEffect(() => {
+		if (value) {
+			setInternalValue(true)
+			setTimeout(() => setInternalValue(false), timeout)
+		}
 	}, [value])
 
-    useEffect(() => {
+	useEffect(() => {
 		internalValue ? handleOpen() : handleClose()
 	}, [internalValue])
 
-    const snackbarClass = classNames('snackbar', className, color)
+	const snackbarClass = classNames('snackbar', className, color)
 
-    return (
-        <ReactPortal wrapperId='snackbar-root'>
-            <div className="fixed bottom-0 w-screen flex justify-center">
-                <AnimatePresence>
-                    { internalValue && (
-                        <motion.div
-                            variants={dropIn}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            className={snackbarClass}
-                        >
-                            { children }
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-        </ReactPortal>
-    )
+	return (
+		<ReactPortal wrapperId='snackbar-root'>
+			<div className='fixed bottom-0 w-screen flex justify-center'>
+				<AnimatePresence>
+					{internalValue && (
+						<motion.div
+							variants={dropIn}
+							initial='hidden'
+							animate='visible'
+							exit='exit'
+							className={snackbarClass}
+						>
+							{children}
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</div>
+		</ReactPortal>
+	)
 }
 
 export default Snackbar

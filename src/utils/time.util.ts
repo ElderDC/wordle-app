@@ -1,4 +1,10 @@
-import { IntervalOption, MILLISECONDS_OF_A_DAY, MILLISECONDS_OF_A_HOUR, MILLISECONDS_OF_A_MINUTE, MILLISECONDS_OF_A_SECOND } from '@/models/time.model'
+import {
+	IntervalOption,
+	MILLISECONDS_OF_A_DAY,
+	MILLISECONDS_OF_A_HOUR,
+	MILLISECONDS_OF_A_MINUTE,
+	MILLISECONDS_OF_A_SECOND,
+} from '@/models/time.model'
 
 export const getRemaining = (timer: number) => {
 	if (timer === 0) return '00:00:00'
@@ -13,11 +19,9 @@ export const getRemaining = (timer: number) => {
 		(duration % MILLISECONDS_OF_A_MINUTE) / MILLISECONDS_OF_A_SECOND
 	)
 
-	return (
-		`${addZeroToLeft(remainingHours)}:${addZeroToLeft(
-			remainingMinutes
-		)}:${addZeroToLeft(remainingSeconds)}`
-	)
+	return `${addZeroToLeft(remainingHours)}:${addZeroToLeft(
+		remainingMinutes
+	)}:${addZeroToLeft(remainingSeconds)}`
 }
 
 export const addTime = (

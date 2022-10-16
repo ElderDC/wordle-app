@@ -11,7 +11,9 @@ const Error404 = lazy(() => import('@/pages/Error404/Error404'))
 function App() {
 	return (
 		<ThemeProvider>
-			<Suspense fallback={<Progress indeterminate color='bg-on-base' className='h-1' />}>
+			<Suspense
+				fallback={<Progress indeterminate color='bg-on-base' className='h-1' />}
+			>
 				<AnimatePresence exitBeforeEnter>
 					<Routes location={location} key={location.pathname}>
 						<Route path='/' element={<Navigate to={PublicRoutes.HOME} />} />
