@@ -90,7 +90,7 @@ const Home = () => {
 		}
 	}
 	const checkWord = async (value: string): Promise<boolean> => {
-		let result = false
+		let result = true
 		try {
 			const askForWord = await askWordService(value)
 			result = askForWord.data.Response
