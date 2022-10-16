@@ -9,6 +9,7 @@ import {
 	Icon,
 	Text,
 } from '@/components/ui/atoms'
+import AnimatePage from '@/components/AnimatePage'
 import ModalInfo from '@/components/ModalInfo'
 import ModalStats from '@/components/ModalStats'
 import WordleWord from '@/components/WordleWord'
@@ -120,7 +121,7 @@ const Home = () => {
 	}, [tries])
 
 	return (
-		<div>
+		<AnimatePage>
 			<Card className='max-w-2xl my-8 mx-auto'>
 				<CardHead className='flex items-center justify-between gap-2 pb-8'>
 					<div className='flex'>
@@ -192,7 +193,7 @@ const Home = () => {
 			</Card>
 			<ModalInfo value={modalInfo} onClose={() => setModalInfo(false)} />
 			<ModalStats value={modalStat} onClose={() => setModalStat(false)} />
-		</div>
+		</AnimatePage>
 	)
 }
 

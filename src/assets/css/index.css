@@ -21,7 +21,7 @@
 }
 
 body {
-	@apply bg-base text-on-base;
+	@apply bg-base text-on-base overflow-x-hidden;
 	font-family: 'Poppins', sans-serif;
 }
 
