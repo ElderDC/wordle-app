@@ -8,6 +8,7 @@ import {
 	CardHead,
 	Icon,
 	Snackbar,
+	Switch,
 	Text,
 	Tooltip,
 } from '@/components/ui/atoms'
@@ -168,7 +169,7 @@ const Home = () => {
 					<Text size='h5' transform='uppercase' weight='bold'>
 						Wordle
 					</Text>
-					<div className='flex'>
+					<div className='flex items-center'>
 						<Tooltip bottom content={'Estadisticas'}>
 							<Button
 								className='text-on-base'
@@ -182,16 +183,21 @@ const Home = () => {
 							</Button>
 						</Tooltip>
 						<Tooltip bottom content={'Cambiar tema'}>
-							<Button
-								className='text-on-base'
+							<Switch
+								className={theme === 'dark'
+									? 'bg-gradient-to-b from-sky-900 to-sky-300'
+									: 'bg-gradient-to-b from-cyan-300 to-yellow-200'
+								}
+								handleClassName={theme === 'dark'
+									? 'bg-slate-100'
+									: 'bg-amber-500'
+								}
+								value={theme}
+								trueValue={'dark'}
+								falseValue={'light'}
 								size='sm'
-								icon
-								text
-								rounded
-								onClick={toggleTheme}
-							>
-								<Icon>{theme === 'dark' ? 'light_mode' : 'dark_mode'}</Icon>
-							</Button>
+								onChange={toggleTheme}
+							/>
 						</Tooltip>
 					</div>
 				</CardHead>
