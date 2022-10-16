@@ -195,19 +195,39 @@ body {
 		@apply w-16 h-8 bg-white/40 flex items-center justify-start rounded-full p-1 cursor-pointer;
 		box-shadow: inset 0px 6px 8px 3px rgba(0, 0, 0, 0.25);
 	}
-	.switch-xs { @apply w-12 h-6; }
-	.switch-sm { @apply w-14 h-7; }
-	.switch-md { @apply w-16 h-8; }
-	.switch-lg { @apply w-20 h-10 p-2; }
-	.switch-xl { @apply w-24 h-12 p-2; }
+	.switch-xs {
+		@apply w-12 h-6;
+	}
+	.switch-sm {
+		@apply w-14 h-7;
+	}
+	.switch-md {
+		@apply w-16 h-8;
+	}
+	.switch-lg {
+		@apply w-20 h-10 p-2;
+	}
+	.switch-xl {
+		@apply w-24 h-12 p-2;
+	}
 
-	.switch-xs .handle { @apply w-4 h-4; }
-	.switch-sm .handle { @apply w-5 h-5; }
-	.switch-md .handle { @apply w-6 h-6; }
-	.switch-lg .handle { @apply w-7 h-7; }
-	.switch-xl .handle { @apply w-8 h-8; }
+	.switch-xs .handle {
+		@apply w-4 h-4;
+	}
+	.switch-sm .handle {
+		@apply w-5 h-5;
+	}
+	.switch-md .handle {
+		@apply w-6 h-6;
+	}
+	.switch-lg .handle {
+		@apply w-7 h-7;
+	}
+	.switch-xl .handle {
+		@apply w-8 h-8;
+	}
 
-	.switch[data-on="true"] {
+	.switch[data-on='true'] {
 		@apply justify-end;
 	}
 	.handle {

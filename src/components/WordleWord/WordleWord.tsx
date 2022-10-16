@@ -33,7 +33,11 @@ const WordleWord = (props: WordleWordProps) => {
 			return item
 		})
 		.map((item) => {
-			if (word.includes(item.value) && wordLettersCount[item.value] > 0 && item.status !== IWordleLetterStatus.correct) {
+			if (
+				word.includes(item.value) &&
+				wordLettersCount[item.value] > 0 &&
+				item.status !== IWordleLetterStatus.correct
+			) {
 				item.status = IWordleLetterStatus.present
 				wordLettersCount[item.value] -= 1
 			}

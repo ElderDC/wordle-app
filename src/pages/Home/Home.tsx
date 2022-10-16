@@ -184,13 +184,13 @@ const Home = () => {
 						</Tooltip>
 						<Tooltip bottom content={'Cambiar tema'}>
 							<Switch
-								className={theme === 'dark'
-									? 'bg-gradient-to-b from-sky-900 to-sky-300'
-									: 'bg-gradient-to-b from-cyan-300 to-yellow-200'
+								className={
+									theme === 'dark'
+										? 'bg-gradient-to-b from-sky-900 to-sky-300'
+										: 'bg-gradient-to-b from-cyan-300 to-yellow-200'
 								}
-								handleClassName={theme === 'dark'
-									? 'bg-slate-100'
-									: 'bg-amber-500'
+								handleClassName={
+									theme === 'dark' ? 'bg-slate-100' : 'bg-amber-500'
 								}
 								value={theme}
 								trueValue={'dark'}
