@@ -15,34 +15,32 @@ import WordleWord from '@/components/WordleWord'
 import WordleKeyboard from '@/components/WordleKeyboard'
 import { IThemeContext, ThemeContext } from '@/context'
 import { RootState } from '@/redux/store'
-import { resetWordleState, setLastTime, setSuccessTries, setTotalTries, setTries } from '@/redux/states/wordle.state'
+import { resetWordleState, setLastTime, setSuccessTries, setTotalTries, setTries, setWord } from '@/redux/states/wordle.state'
+import { askWordService, getWordService } from '@/services/wordle.service'
+import { addTime } from '@/utils/time.util'
+import { IntervalOption } from '@/models/time.model'
+import { useCountDown } from '@/hooks'
 
-const MAX_TRIES = 5
+const MAX_TRIES: number = 5
+const COUNTDOWN_INTERVAL: number = 5
+const COUNTDOWN_UNIT: IntervalOption = IntervalOption.MINUTES
 
 const Home = () => {
 	const { theme, toggleTheme } = useContext(ThemeContext) as IThemeContext
-	const [modalInfo, setModalInfo] = useState<boolean>(false)
-	const [modalStat, setModalStat] = useState<boolean>(false)
-
 	const {
 		word,
 		tries,
+		lastTime,
+		firstTime,
 		totalTries,
 		successTries,
 	} = useSelector((state: RootState) => state.wordle)
 	const dispatch = useDispatch()
 
+	const [modalInfo, setModalInfo] = useState<boolean>(firstTime === 0)
+	const [modalStat, setModalStat] = useState<boolean>(false)
 	const [currentTried, setCurrentTried] = useState<string>('')
 	const [disabled, setDisabled] = useState<boolean>(false)
-
-	useEffect(() => {
-		if (tries.at(-1) === word || tries.length === MAX_TRIES) {
-			setDisabled(true)
-		} else {
-			setDisabled(false)
-		} 
-	}, [tries])
-	
 
 	const handleKey = (key: string) => {
 		if (currentTried.length < 5 && /^[a-zA-Z]+$/.test(key)) setCurrentTried(preVal => (preVal += key))
@@ -54,6 +52,9 @@ const Home = () => {
 		if (currentTried.length < 5) return
 		if (tries.length >= MAX_TRIES) return
 		//
+		const askForWord = await askWordService(currentTried)
+		if (!askForWord.data.Response) return 
+		//
 		const updatedTries = [...tries, currentTried]
 		dispatch(setTries(updatedTries))
 		checkLastTried(updatedTries)
@@ -63,12 +64,23 @@ const Home = () => {
 		if (updatedTries.at(-1) === word) {
 			dispatch(setSuccessTries(successTries + 1))
 			dispatch(setTotalTries(totalTries + 1))
-			dispatch(setLastTime(Date.now()))
+			dispatch(setLastTime(addTime(COUNTDOWN_INTERVAL, IntervalOption[COUNTDOWN_UNIT]).getTime()))
+			setModalStat(true)
 			return
 		}
 		if (updatedTries.length === MAX_TRIES) {
 			dispatch(setTotalTries(totalTries + 1))
-			dispatch(setLastTime(Date.now()))
+			dispatch(setLastTime(addTime(COUNTDOWN_INTERVAL, IntervalOption[COUNTDOWN_UNIT]).getTime()))
+			setModalStat(true)
+		}
+	}
+	const getWord = async () => {
+		try {
+			const word = await getWordService()
+			dispatch(setTries([]))
+			dispatch(setWord(word.data.Response))
+		} catch (error) {
+			console.log(error)
 		}
 	}
 	const getValue = (index: number) => {
@@ -76,6 +88,23 @@ const Home = () => {
 		if (tries.length >= index) return currentTried
 		return ''
 	}
+
+	useCountDown(lastTime, { onEnd: () => {
+		dispatch(setLastTime(0))
+		dispatch(setWord(''))
+	}})
+
+	useEffect(() => {
+		if (!word) getWord()
+	}, [word])
+
+	useEffect(() => {
+		if (tries.at(-1) === word || tries.length === MAX_TRIES) {
+			setDisabled(true)
+		} else {
+			setDisabled(false)
+		} 
+	}, [tries])
 
 	return (
 		<div>

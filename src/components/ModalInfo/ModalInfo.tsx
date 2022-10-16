@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux'
 import {
 	Button,
 	Card,
@@ -8,6 +9,9 @@ import {
 } from '@/components/ui/atoms'
 import { Modal } from '@/components/ui/molecules'
 import WordleWord from '@/components/WordleWord'
+import { setFirstTime } from '@/redux/states/wordle.state'
+import { RootState } from '@/redux/store'
+import { IWordleLetterStatus } from '@/models/wordle.model'
 
 const noop = () => {}
 
@@ -20,8 +24,11 @@ interface ModalInfoProps {
 
 const ModalInfo = (props: ModalInfoProps) => {
 	const { value = false, onClose = noop } = props
+	const { firstTime } = useSelector((state: RootState) => state.wordle)
+	const dispatch = useDispatch()
 
 	const handleClose = (): void => {
+		if (firstTime === 0) dispatch(setFirstTime(Date.now()))
 		onClose()
 	}
 
@@ -41,17 +48,29 @@ const ModalInfo = (props: ModalInfoProps) => {
 						qué tan cerca estás de acertar la palabra.
 					</Text>
 					<Text weight='bold'>Ejemplo</Text>
-					<WordleWord value='gatos' word='g****' example="success" />
+					<WordleWord
+						value='gatos'
+						word='g****'
+						example={IWordleLetterStatus.correct}
+					/>
 					<Text>
 						La letra <Text weight='bold'>G</Text> esta en la palabra y posición
 						correcta.
 					</Text>
-					<WordleWord value='vocal' word='**c**' example="bad-position" />
+					<WordleWord
+						value='vocal'
+						word='**c**'
+						example={IWordleLetterStatus.present}
+					/>
 					<Text>
 						La letra <Text weight='bold'>C</Text> esta en la palabra pero en la
 						posición incorrecta.
 					</Text>
-					<WordleWord value='canto' word='****u' example="failed" />
+					<WordleWord
+						value='canto'
+						word='****u'
+						example={IWordleLetterStatus.absent}
+					/>
 					<Text>
 						La letra <Text weight='bold'>O</Text> no esta en la palabra.
 					</Text>

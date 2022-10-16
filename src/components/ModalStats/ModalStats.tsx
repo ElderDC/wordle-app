@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
 	Button,
 	Card,
@@ -7,8 +7,8 @@ import {
 	CardHead,
 	Text,
 } from '@/components/ui/atoms'
-import { Modal } from '@/components/ui/molecules'
 import { RootState } from '@/redux/store'
+import { Modal, Timer } from '@/components/ui/molecules'
 
 const noop = () => {}
 
@@ -55,12 +55,12 @@ const ModalStats = (props: ModalStatsProps) => {
 							<Text weight='bold'>Victorias</Text>
 						</div>
 					</div>
-					<div className='flex flex-col items-center justify-center space-y-4'>
-						<Text transform='uppercase'>Siguiente partida</Text>
-						<Text size='h6' weight='bold'>
-							{ lastTime }
-						</Text>
-					</div>
+					{ !!lastTime && (
+						<div className='flex flex-col items-center justify-center space-y-4'>
+							<Text transform='uppercase'>Siguiente partida</Text>
+							<Timer target={lastTime}></Timer>
+						</div>
+					)}
 				</CardBody>
 				<CardFooter className='flex justify-center'>
 					<Button className='bg-success' onClick={handleClose}>

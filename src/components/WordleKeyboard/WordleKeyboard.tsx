@@ -1,6 +1,10 @@
 import { useEffect } from "react"
 import { useKeyPress } from "@/hooks"
 import { Button, Icon } from "@/components/ui/atoms"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
+import { getWordLettersCount } from "@/utils/word.util"
+import { IWordleLetterStatus, statusColorOptions } from "@/models/wordle.model"
 
 const noop = () => {}
 
@@ -19,6 +23,8 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
         onBackspace = noop,
     } = props
 
+    const { word, tries } = useSelector((state: RootState) => state.wordle)
+
     const keyPressed = useKeyPress()
 
     useEffect(() => {
@@ -30,6 +36,35 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
         const keyPress = [...keysRow1, ...keysRow2, ...keysRow3].find(item => item.key === key)
         if (keyPress) keyPress.onClick()
     };
+
+    const wordLettersCount = getWordLettersCount(word)
+    const wordArray = word.split('')
+    const letters: Record<string, IWordleLetterStatus> = {}
+
+    tries.forEach((tried) => {
+        const triedArray = tried.split('')
+        triedArray.forEach(letter => {
+            if (!letters[letter]) letters[letter] = IWordleLetterStatus.absent
+        })
+        triedArray.forEach((letter, index) => {
+            if (letter === wordArray[index]) {
+                letters[letter] = IWordleLetterStatus.correct
+                wordLettersCount[letter] -= 1
+            }
+        })
+        triedArray.forEach((letter) => {
+            if (word.includes(letter) && wordLettersCount[letter] > 0) {
+                letters[letter] = IWordleLetterStatus.present
+                wordLettersCount[letter] -= 1
+            }
+        })
+    })
+
+    const getLetterStatus = (letter: string): string => {
+        const currentLetter = letters[letter]
+        if (currentLetter) return statusColorOptions[currentLetter]
+		return 'bg-base-300 text-on-base'
+	}
 
     const keysRow1 = [
         { key: 'q', children: 'q', onClick: () => onKey('q') },
@@ -73,7 +108,7 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
                     <Button
                         key={index}
                         disabled={disabled}
-                        className="bg-base-300 text-on-base"
+                        className={getLetterStatus(item.key)}
                         onClick={item.onClick}>
                         {item.children}
                     </Button>
@@ -84,7 +119,7 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
                     <Button
                         key={index}
                         disabled={disabled}
-                        className="bg-base-300 text-on-base"
+                        className={getLetterStatus(item.key)}
                         onClick={item.onClick}>
                         {item.children}
                     </Button>
@@ -95,7 +130,7 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
                     <Button
                         key={index}
                         disabled={disabled}
-                        className="bg-base-300 text-on-base"
+                        className={getLetterStatus(item.key)}
                         onClick={item.onClick}>
                         {item.children}
                     </Button>

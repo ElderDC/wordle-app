@@ -1,11 +1,12 @@
-import { Text } from '@/components/ui/atoms'
 import classNames from 'classnames'
+import { Text } from '@/components/ui/atoms'
+import { IWordleLetterStatus, statusColorOptions } from '@/models/wordle.model'
 
 interface WordleLetterProps {
 	letter: string
 	value: string
-	word: string
-	example?: 'success' | 'bad-position' | 'failed'
+	example?: IWordleLetterStatus
+	status?: IWordleLetterStatus
 	validated?: boolean
 }
 
@@ -13,25 +14,17 @@ const WordleLetter = (props: WordleLetterProps) => {
 	const {
 		letter,
 		value,
-		word,
-		example = false,
+		example,
+		status,
 		validated = false,
 	} = props
 
-	const exampleOptions = {
-		success: 'bg-success',
-		'bad-position': 'bg-warning',
-		failed: 'bg-muted'
-	}
-
 	const getWordStatus = (): string => {
 		if (letter === '*') return 'bg-transparent'
-		if (example) return exampleOptions[example]
+		if (example) return statusColorOptions[example]
 		if (!validated) return 'bg-on-base/10'
-		if (!value) return 'bg-on-base/10'
-		if (value === letter) return 'bg-success'
-		if (word.includes(value)) return 'bg-warning'
-		return 'bg-muted'
+		if (status) return `${statusColorOptions[status]} text-white`
+		return 'bg-on-base/10'
 	}
 
 	const wordLetterClass = classNames(
