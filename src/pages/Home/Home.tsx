@@ -58,11 +58,9 @@ const Home = () => {
 	const handleEnter = async () => {
 		if (tries.length >= MAX_TRIES) return
 		if (currentTried.length < 5) return
-		const askForWord = await askWordService(currentTried)
-		if (!askForWord.data.Response) {
-			setBadWordSnackbar(true)
-			return
-		}
+		///
+		const validWord = await checkWord(currentTried)
+		if (!validWord) return setBadWordSnackbar(true)
 		//
 		const updatedTries = [...tries, currentTried]
 		dispatch(setTries(updatedTries))
@@ -91,6 +89,16 @@ const Home = () => {
 			setModalStat(true)
 		}
 	}
+	const checkWord = async (value: string): Promise<boolean> => {
+		let result = false
+		try {
+			const askForWord = await askWordService(value)
+			result = askForWord.data.Response
+		} catch (error) {
+			console.log(error)
+		}
+		return result
+	}
 	const getWord = async () => {
 		try {
 			const word = await getWordService()
@@ -98,6 +106,8 @@ const Home = () => {
 			dispatch(setWord(word.data.Response))
 		} catch (error) {
 			console.log(error)
+			dispatch(setTries([]))
+			dispatch(setWord('error'))
 		}
 	}
 	const getValue = (index: number) => {
