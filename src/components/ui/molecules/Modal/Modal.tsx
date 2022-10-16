@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
+import { AnimatePresence, motion } from 'framer-motion'
 import ReactPortal from '@/components/ReactPortal'
+import { Overlay } from '../../atoms'
 
 const noop = () => {}
 
@@ -8,9 +10,7 @@ type Handler = () => void
 
 interface ModalPops {
 	children?: undefined | React.ReactNode | React.ReactNode[]
-	className?: string
 	overlayColor?: string
-	style?: React.CSSProperties
 	value?: boolean
 	onClose?: Handler
 	onOpen?: Handler
@@ -18,12 +18,31 @@ interface ModalPops {
 	onOverlayClick?: Handler
 }
 
+const dropIn = {
+    hidden: {
+		y: "-100vh",
+		opacity: 0,
+    },
+    visible: {
+		y: "0",
+		opacity: 1,
+		transition: {
+			duration: 0.1,
+			type: "spring",
+			damping: 25,
+			stiffness: 500,
+		},
+    },
+    exit: {
+		y: "100vh",
+		opacity: 0,
+    },
+};
+
 const Modal = (props: ModalPops) => {
 	const {
 		children,
-		className,
-		overlayColor = 'bg-black/50',
-		style,
+		overlayColor,
 		value = false,
 		onClose = noop,
 		onOpen = noop,
@@ -43,8 +62,7 @@ const Modal = (props: ModalPops) => {
 		event.stopPropagation()
 		onContentClick()
 	}
-	const handleOverlayClick = (event: React.MouseEvent): void => {
-		event.stopPropagation()
+	const handleOverlayClick = (): void => {
 		onOverlayClick()
 	}
 
@@ -56,21 +74,27 @@ const Modal = (props: ModalPops) => {
 		internalValue ? handleOpen() : handleClose()
 	}, [internalValue])
 
-	const modalClass = classNames('modal', overlayColor, className, {
-		show: internalValue,
-	})
-
-	const modalContentClass = classNames('modal__content')
+	const modalClass = classNames('modal')
 
 	return (
 		<ReactPortal wrapperId='modal-root'>
-			<div className={modalClass} style={style} onClick={handleOverlayClick}>
-				<div className={modalContentClass}>
-					<div className='flex items-center' onClick={handleContentClick}>
-						{children}
-					</div>
-				</div>
-			</div>
+			<AnimatePresence>
+				{ internalValue && (
+					<Overlay color={overlayColor} onClick={handleOverlayClick}>
+						<div className={modalClass}>
+							<motion.div
+								variants={dropIn}
+								initial="hidden"
+								animate="visible"
+								exit="exit" className='flex items-center'
+								onClick={handleContentClick}
+							>
+								{children}
+							</motion.div>
+						</div>
+					</Overlay>
+				)}
+			</AnimatePresence>
 		</ReactPortal>
 	)
 }
