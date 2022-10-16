@@ -11,13 +11,7 @@ interface WordleLetterProps {
 }
 
 const WordleLetter = (props: WordleLetterProps) => {
-	const {
-		letter,
-		value,
-		example,
-		status,
-		validated = false,
-	} = props
+	const { letter, value, example, status, validated = false } = props
 
 	const getWordStatus = (): string => {
 		if (letter === '*') return 'bg-transparent'

@@ -1,1 +1,1 @@
-export { default } from './WordleKeyboard';
+export { default } from './WordleKeyboard'

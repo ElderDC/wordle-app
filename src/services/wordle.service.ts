@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const WORDLE_API_URL = import.meta.env.VITE_WORDLE_API_URL || 'https://thatwordleapi.azurewebsites.net'
+const WORDLE_API_URL =
+	import.meta.env.VITE_WORDLE_API_URL ||
+	'https://thatwordleapi.azurewebsites.net'
 
 const wordleAPI = axios.create({
 	baseURL: WORDLE_API_URL,

@@ -22,11 +22,9 @@ interface ModalStatsProps {
 const ModalStats = (props: ModalStatsProps) => {
 	const { value = false, onClose = noop } = props
 
-	const {
-		lastTime,
-		totalTries,
-		successTries
-	} = useSelector((state: RootState) => state.wordle)
+	const { lastTime, totalTries, successTries } = useSelector(
+		(state: RootState) => state.wordle
+	)
 
 	const handleClose = (): void => {
 		onClose()
@@ -44,18 +42,18 @@ const ModalStats = (props: ModalStatsProps) => {
 					<div className='flex justify-around mb-8'>
 						<div className='flex flex-col items-center justify-center'>
 							<Text size='h5' weight='bold'>
-								{ totalTries }
+								{totalTries}
 							</Text>
 							<Text weight='bold'>Jugadas</Text>
 						</div>
 						<div className='flex flex-col items-center justify-center'>
 							<Text size='h5' weight='bold'>
-								{ successTries }
+								{successTries}
 							</Text>
 							<Text weight='bold'>Victorias</Text>
 						</div>
 					</div>
-					{ !!lastTime && (
+					{!!lastTime && (
 						<div className='flex flex-col items-center justify-center space-y-4'>
 							<Text transform='uppercase'>Siguiente partida</Text>
 							<Timer target={lastTime}></Timer>

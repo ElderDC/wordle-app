@@ -15,7 +15,14 @@ import WordleWord from '@/components/WordleWord'
 import WordleKeyboard from '@/components/WordleKeyboard'
 import { IThemeContext, ThemeContext } from '@/context'
 import { RootState } from '@/redux/store'
-import { resetWordleState, setLastTime, setSuccessTries, setTotalTries, setTries, setWord } from '@/redux/states/wordle.state'
+import {
+	resetWordleState,
+	setLastTime,
+	setSuccessTries,
+	setTotalTries,
+	setTries,
+	setWord,
+} from '@/redux/states/wordle.state'
 import { askWordService, getWordService } from '@/services/wordle.service'
 import { addTime } from '@/utils/time.util'
 import { IntervalOption } from '@/models/time.model'
@@ -27,14 +34,8 @@ const COUNTDOWN_UNIT: IntervalOption = IntervalOption.MINUTES
 
 const Home = () => {
 	const { theme, toggleTheme } = useContext(ThemeContext) as IThemeContext
-	const {
-		word,
-		tries,
-		lastTime,
-		firstTime,
-		totalTries,
-		successTries,
-	} = useSelector((state: RootState) => state.wordle)
+	const { word, tries, lastTime, firstTime, totalTries, successTries } =
+		useSelector((state: RootState) => state.wordle)
 	const dispatch = useDispatch()
 
 	const [modalInfo, setModalInfo] = useState<boolean>(firstTime === 0)
@@ -43,17 +44,19 @@ const Home = () => {
 	const [disabled, setDisabled] = useState<boolean>(false)
 
 	const handleKey = (key: string) => {
-		if (currentTried.length < 5 && /^[a-zA-Z]+$/.test(key)) setCurrentTried(preVal => (preVal += key))
+		if (currentTried.length < 5 && /^[a-zA-Z]+$/.test(key))
+			setCurrentTried((preVal) => (preVal += key))
 	}
 	const handleBackspace = () => {
-		if (currentTried.length > 0) setCurrentTried(preVal => (preVal.slice(0, -1)))
+		if (currentTried.length > 0)
+			setCurrentTried((preVal) => preVal.slice(0, -1))
 	}
 	const handleEnter = async () => {
 		if (currentTried.length < 5) return
 		if (tries.length >= MAX_TRIES) return
 		//
 		const askForWord = await askWordService(currentTried)
-		if (!askForWord.data.Response) return 
+		if (!askForWord.data.Response) return
 		//
 		const updatedTries = [...tries, currentTried]
 		dispatch(setTries(updatedTries))
@@ -64,13 +67,21 @@ const Home = () => {
 		if (updatedTries.at(-1) === word) {
 			dispatch(setSuccessTries(successTries + 1))
 			dispatch(setTotalTries(totalTries + 1))
-			dispatch(setLastTime(addTime(COUNTDOWN_INTERVAL, IntervalOption[COUNTDOWN_UNIT]).getTime()))
+			dispatch(
+				setLastTime(
+					addTime(COUNTDOWN_INTERVAL, IntervalOption[COUNTDOWN_UNIT]).getTime()
+				)
+			)
 			setModalStat(true)
 			return
 		}
 		if (updatedTries.length === MAX_TRIES) {
 			dispatch(setTotalTries(totalTries + 1))
-			dispatch(setLastTime(addTime(COUNTDOWN_INTERVAL, IntervalOption[COUNTDOWN_UNIT]).getTime()))
+			dispatch(
+				setLastTime(
+					addTime(COUNTDOWN_INTERVAL, IntervalOption[COUNTDOWN_UNIT]).getTime()
+				)
+			)
 			setModalStat(true)
 		}
 	}
@@ -89,10 +100,12 @@ const Home = () => {
 		return ''
 	}
 
-	useCountDown(lastTime, { onEnd: () => {
-		dispatch(setLastTime(0))
-		dispatch(setWord(''))
-	}})
+	useCountDown(lastTime, {
+		onEnd: () => {
+			dispatch(setLastTime(0))
+			dispatch(setWord(''))
+		},
+	})
 
 	useEffect(() => {
 		if (!word) getWord()
@@ -103,7 +116,7 @@ const Home = () => {
 			setDisabled(true)
 		} else {
 			setDisabled(false)
-		} 
+		}
 	}, [tries])
 
 	return (
@@ -159,14 +172,14 @@ const Home = () => {
 					</div>
 				</CardHead>
 				<CardBody className='bg-base py-16'>
-					{ Array.apply(null, Array(MAX_TRIES)).map((item, index) => (
+					{Array.apply(null, Array(MAX_TRIES)).map((item, index) => (
 						<WordleWord
 							key={`word-${index}`}
 							value={getValue(index)}
 							word={word}
 							validated={!!tries[index]}
 						/>
-					)) }
+					))}
 				</CardBody>
 				<CardFooter className='pt-8'>
 					<WordleKeyboard

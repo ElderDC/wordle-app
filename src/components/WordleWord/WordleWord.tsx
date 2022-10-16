@@ -11,12 +11,7 @@ interface WordleWordProps {
 }
 
 const WordleWord = (props: WordleWordProps) => {
-	const {
-		value = '',
-		word = '',
-		example,
-		validated,
-	} = props
+	const { value = '', word = '', example, validated } = props
 
 	const wordleWordClass = classNames('flex items-center justify-center gap-2')
 
@@ -24,23 +19,26 @@ const WordleWord = (props: WordleWordProps) => {
 	const wordArray = word.split('')
 	const wordLettersCount = getWordLettersCount(word)
 
-	const letters = wordArray.map((letter, index) => ({
-		letter,
-		value: valueArray[index],
-		status: IWordleLetterStatus.absent,
-	})).map(item => {
-		if (item.letter === item.value) {
-			item.status = IWordleLetterStatus.correct
-			wordLettersCount[item.value] -= 1
-		}
-		return item
-	}).map(item => {
-		if (word.includes(item.value) && wordLettersCount[item.value] > 0) {
-			item.status = IWordleLetterStatus.present
-			wordLettersCount[item.value] -= 1
-		}
-		return item
-	})
+	const letters = wordArray
+		.map((letter, index) => ({
+			letter,
+			value: valueArray[index],
+			status: IWordleLetterStatus.absent,
+		}))
+		.map((item) => {
+			if (item.letter === item.value) {
+				item.status = IWordleLetterStatus.correct
+				wordLettersCount[item.value] -= 1
+			}
+			return item
+		})
+		.map((item) => {
+			if (word.includes(item.value) && wordLettersCount[item.value] > 0) {
+				item.status = IWordleLetterStatus.present
+				wordLettersCount[item.value] -= 1
+			}
+			return item
+		})
 
 	return (
 		<div className={wordleWordClass}>
