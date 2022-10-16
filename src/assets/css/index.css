@@ -182,4 +182,10 @@ body {
 	.modal {
 		@apply min-h-full py-12 flex justify-center;
 	}
+
+	/* Snackbar component */
+
+	.snackbar {
+		@apply bg-black/80 p-4 m-4 rounded pointer-events-none;
+	}
 }

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
+import classNames from 'classnames'
 import ReactPortal from '@/components/ReactPortal'
-import { Overlay } from '../../atoms'
-
-const noop = () => {}
+import { Overlay } from '@/components/ui/atoms'
 
 type Handler = () => void
 
@@ -17,6 +15,8 @@ interface ModalPops {
 	onContentClick?: Handler
 	onOverlayClick?: Handler
 }
+
+const noop = () => {}
 
 const dropIn = {
     hidden: {
@@ -86,7 +86,8 @@ const Modal = (props: ModalPops) => {
 								variants={dropIn}
 								initial="hidden"
 								animate="visible"
-								exit="exit" className='flex items-center'
+								exit="exit"
+								className='flex items-center'
 								onClick={handleContentClick}
 							>
 								{children}

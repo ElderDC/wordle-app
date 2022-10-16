@@ -7,6 +7,7 @@ import {
 	CardFooter,
 	CardHead,
 	Icon,
+	Snackbar,
 	Text,
 	Tooltip,
 } from '@/components/ui/atoms'
@@ -38,6 +39,7 @@ const Home = () => {
 	const { theme, toggleTheme } = useContext(ThemeContext) as IThemeContext
 	const { word, tries, lastTime, firstTime, totalTries, successTries } =
 		useSelector((state: RootState) => state.wordle)
+	const [badWordSnackbar, setBadWordSnackbar] = useState(false)
 	const dispatch = useDispatch()
 
 	const [modalInfo, setModalInfo] = useState<boolean>(firstTime === 0)
@@ -54,11 +56,16 @@ const Home = () => {
 			setCurrentTried((preVal) => preVal.slice(0, -1))
 	}
 	const handleEnter = async () => {
-		if (currentTried.length < 5) return
 		if (tries.length >= MAX_TRIES) return
-		//
+		if (currentTried.length < 5) {
+			setBadWordSnackbar(true)
+			return
+		}
 		const askForWord = await askWordService(currentTried)
-		if (!askForWord.data.Response) return
+		if (!askForWord.data.Response) {
+			setBadWordSnackbar(true)
+			return
+		}
 		//
 		const updatedTries = [...tries, currentTried]
 		dispatch(setTries(updatedTries))
@@ -200,6 +207,9 @@ const Home = () => {
 					/>
 				</CardFooter>
 			</Card>
+			<Snackbar value={badWordSnackbar} timeout={3000} onClose={() => setBadWordSnackbar(false)}>
+				La palabra no es valida
+			</Snackbar>
 			<ModalInfo value={modalInfo} onClose={() => setModalInfo(false)} />
 			<ModalStats value={modalStat} onClose={() => setModalStat(false)} />
 		</AnimatePage>
