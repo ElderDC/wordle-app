@@ -186,6 +186,6 @@ body {
 	/* Snackbar component */
 
 	.snackbar {
-		@apply bg-black/80 p-4 m-4 rounded pointer-events-none;
+		@apply bg-black/80 text-white p-4 m-4 rounded pointer-events-none;
 	}
 }

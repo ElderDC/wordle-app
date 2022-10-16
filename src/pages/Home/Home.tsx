@@ -57,10 +57,7 @@ const Home = () => {
 	}
 	const handleEnter = async () => {
 		if (tries.length >= MAX_TRIES) return
-		if (currentTried.length < 5) {
-			setBadWordSnackbar(true)
-			return
-		}
+		if (currentTried.length < 5) return
 		const askForWord = await askWordService(currentTried)
 		if (!askForWord.data.Response) {
 			setBadWordSnackbar(true)
@@ -207,8 +204,12 @@ const Home = () => {
 					/>
 				</CardFooter>
 			</Card>
-			<Snackbar value={badWordSnackbar} timeout={3000} onClose={() => setBadWordSnackbar(false)}>
-				La palabra no es valida
+			<Snackbar
+				value={badWordSnackbar}
+				timeout={3000}
+				onClose={() => setBadWordSnackbar(false)}
+			>
+				<Text size='body2'>La palabra no es valida</Text>
 			</Snackbar>
 			<ModalInfo value={modalInfo} onClose={() => setModalInfo(false)} />
 			<ModalStats value={modalStat} onClose={() => setModalStat(false)} />

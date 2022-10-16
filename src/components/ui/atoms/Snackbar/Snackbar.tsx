@@ -8,6 +8,7 @@ type Handler = () => void
 interface SnackbarProps {
     children?: undefined | React.ReactNode | React.ReactNode[]
     className?: string
+    color?: string
     timeout?: number
     value?: boolean
     onClose?: Handler
@@ -41,6 +42,7 @@ const Snackbar = (props: SnackbarProps) => {
     const {
 		children,
         className,
+        color,
         timeout = 1000,
 		value = false,
 		onClose = noop,
@@ -67,7 +69,7 @@ const Snackbar = (props: SnackbarProps) => {
 		internalValue ? handleOpen() : handleClose()
 	}, [internalValue])
 
-    const snackbarClass = classNames('snackbar', className)
+    const snackbarClass = classNames('snackbar', className, color)
 
     return (
         <ReactPortal wrapperId='snackbar-root'>
