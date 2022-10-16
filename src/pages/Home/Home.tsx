@@ -8,6 +8,7 @@ import {
 	CardHead,
 	Icon,
 	Text,
+	Tooltip,
 } from '@/components/ui/atoms'
 import AnimatePage from '@/components/AnimatePage'
 import ModalInfo from '@/components/ModalInfo'
@@ -125,51 +126,59 @@ const Home = () => {
 			<Card className='max-w-2xl my-8 mx-auto'>
 				<CardHead className='flex items-center justify-between gap-2 pb-8'>
 					<div className='flex'>
-						<Button
-							className='text-on-base'
-							size='sm'
-							icon
-							text
-							rounded
-							onClick={() => setModalInfo(true)}
-						>
-							<Icon>help</Icon>
-						</Button>
-						<Button
-							className='text-on-base'
-							size='sm'
-							icon
-							text
-							rounded
-							onClick={() => dispatch(resetWordleState())}
-						>
-							<Icon>restart_alt</Icon>
-						</Button>
+						<Tooltip bottom content={'Información'}>
+							<Button
+								className='text-on-base'
+								size='sm'
+								icon
+								text
+								rounded
+								onClick={() => setModalInfo(true)}
+							>
+								<Icon>help</Icon>
+							</Button>
+						</Tooltip>
+						<Tooltip bottom content={'Reiniciar'}>
+							<Button
+								className='text-on-base'
+								size='sm'
+								icon
+								text
+								rounded
+								onClick={() => dispatch(resetWordleState())}
+							>
+								<Icon>restart_alt</Icon>
+							</Button>
+						</Tooltip>
 					</div>
 					<Text size='h5' transform='uppercase' weight='bold'>
 						Wordle
 					</Text>
 					<div className='flex'>
-						<Button
-							className='text-on-base'
-							size='sm'
-							icon
-							text
-							rounded
-							onClick={() => setModalStat(true)}
-						>
-							<Icon>analytics</Icon>
-						</Button>
-						<Button
-							className='text-on-base'
-							size='sm'
-							icon
-							text
-							rounded
-							onClick={toggleTheme}
-						>
-							<Icon>{theme === 'dark' ? 'light_mode' : 'dark_mode'}</Icon>
-						</Button>
+						<Tooltip bottom content={'Estadisticas'}>
+							<Button
+								className='text-on-base'
+								size='sm'
+								icon
+								text
+								rounded
+								onClick={() => setModalStat(true)}
+							>
+								<Icon>analytics</Icon>
+							</Button>
+						</Tooltip>
+						<Tooltip bottom content={'Cambiar tema'}>
+							<Button
+								className='text-on-base'
+								size='sm'
+								icon
+								text
+								rounded
+								onClick={toggleTheme}
+							>
+								<Icon>{theme === 'dark' ? 'light_mode' : 'dark_mode'}</Icon>
+							</Button>
+						</Tooltip>
 					</div>
 				</CardHead>
 				<CardBody className='bg-base py-16'>
