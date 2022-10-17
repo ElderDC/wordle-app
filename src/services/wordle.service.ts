@@ -5,7 +5,7 @@ const WORDLE_API_URL =
 const wordleAPI = async (endpoint: string, params?: Record<string, any>) => {
 	const url = (new URL(endpoint, WORDLE_API_URL)).toString()
 	const serarchParams = (new URLSearchParams(params)).toString()
-	const fullURL = `${url}?${serarchParams}`
+	const fullURL = `${url}/?${serarchParams}`
 
 	return (await fetch(fullURL)).json()
 }
