@@ -1,20 +1,19 @@
-import axios from 'axios'
-
 const WORDLE_API_URL =
 	import.meta.env.VITE_WORDLE_API_URL ||
 	'https://thatwordleapi.azurewebsites.net'
 
-const wordleAPI = axios.create({
-	baseURL: WORDLE_API_URL,
-	timeout: 1000,
-})
+const wordleAPI = async (endpoint: string, params?: Record<string, any>) => {
+	const url = (new URL(endpoint, WORDLE_API_URL)).toString()
+	const serarchParams = (new URLSearchParams(params)).toString()
+	const fullURL = `${url}?${serarchParams}`
 
-export const getWordService = async () => {
-	return wordleAPI.get('/get')
+	return (await fetch(fullURL)).json()
 }
 
-export const askWordService = async (word: string) => {
-	return wordleAPI.get('/ask', {
-		params: { word },
-	})
+export const getWordService = () => {
+	return wordleAPI('/get')
+}
+
+export const askWordService = (word: string) => {
+	return wordleAPI('/ask', { word })
 }

@@ -93,8 +93,8 @@ const Home = () => {
 	const checkWord = async (value: string): Promise<boolean> => {
 		let result = true
 		try {
-			const askForWord = await askWordService(value)
-			result = askForWord.data.Response
+			const data = await askWordService(value)
+			result = data.Response
 		} catch (error) {
 			console.log(error)
 		}
@@ -104,7 +104,7 @@ const Home = () => {
 		try {
 			const word = await getWordService()
 			dispatch(setTries([]))
-			dispatch(setWord(word.data.Response))
+			dispatch(setWord(word.Response))
 		} catch (error) {
 			console.log(error)
 			dispatch(setTries([]))
