@@ -23,10 +23,13 @@
 body {
 	@apply bg-base text-on-base overflow-x-hidden;
 	font-family: 'Poppins', sans-serif;
+	overflow: hidden;
 }
 
 #root {
 	min-height: 100vh;
+	max-height: 100vh;
+	overflow-y: auto;
 }
 
 ::-webkit-scrollbar {
