@@ -160,7 +160,7 @@ const Home = () => {
 								icon
 								text
 								rounded
-								onClick={() => dispatch(resetWordleState())}
+								onClick={() => dispatch(resetWordleState(''))}
 							>
 								<Icon>restart_alt</Icon>
 							</Button>
@@ -206,7 +206,7 @@ const Home = () => {
 						<WordleWord
 							key={`word-${index}`}
 							value={getValue(index)}
-							word={word}
+							word={word || 'error'}
 							validated={!!tries[index]}
 						/>
 					))}

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, Slice } from '@reduxjs/toolkit'
 
 export const WordleStoreName = 'wordle'
 
@@ -20,14 +20,26 @@ export const wordleInitialState: WordleState = {
 	successTries: 0,
 }
 
-export const wordleSlice = createSlice({
+export const wordleSlice: Slice = createSlice({
 	name: WordleStoreName,
 	initialState: wordleInitialState,
 	reducers: {
-		setWord: (state, action) => ({ ...state, word: action.payload }),
-		setTries: (state, action) => ({ ...state, tries: action.payload }),
-		setLastTime: (state, action) => ({ ...state, lastTime: action.payload }),
-		setFirstTime: (state, action) => ({ ...state, firstTime: action.payload }),
+		setWord: (state, action) => ({
+			...state,
+			word: action.payload,
+		}),
+		setTries: (state, action) => ({
+			...state,
+			tries: action.payload,
+		}),
+		setLastTime: (state, action) => ({
+			...state,
+			lastTime: action.payload,
+		}),
+		setFirstTime: (state, action) => ({
+			...state,
+			firstTime: action.payload,
+		}),
 		setTotalTries: (state, action) => ({
 			...state,
 			totalTries: action.payload,
@@ -36,7 +48,7 @@ export const wordleSlice = createSlice({
 			...state,
 			successTries: action.payload,
 		}),
-		resetWordleState: () => wordleInitialState,
+		resetWordleState: (_state, _action) => wordleInitialState,
 	},
 })
 

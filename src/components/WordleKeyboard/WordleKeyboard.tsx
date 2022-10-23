@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useKeyPress } from '@/hooks'
 import { Button, Icon } from '@/components/ui/atoms'
 import { useSelector } from 'react-redux'
@@ -23,128 +23,119 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
 		onBackspace = noop,
 	} = props
 
+	const [letters, setLetters] = useState<Record<string, IWordleLetterStatus>>(
+		{}
+	)
 	const { word, tries } = useSelector((state: RootState) => state.wordle)
-
 	const keyPressed = useKeyPress()
 
 	useEffect(() => {
 		if (!disabled) handleKeyPress(keyPressed)
 	}, [keyPressed])
 
-	const handleKeyPress = (key?: string) => {
+	useEffect(() => {
+		calculateLetterStatus(tries)
+	}, [tries])
+
+	const handleKeyPress = (key: string) => {
 		if (!key) return
-		const keyPress = [...keysRow1, ...keysRow2, ...keysRow3].find(
-			(item) => item.key === key
-		)
-		if (keyPress) keyPress.onClick()
+
+		const keyPress = keys.flat().find((item) => item.key === key)
+
+		if (!keyPress) return
+		if (key === 'Enter') return onEnter()
+		if (key === 'Backspace') return onBackspace()
+		return onKey(key)
 	}
 
-	const wordLettersCount = getWordLettersCount(word)
-	const wordArray = word.split('')
-	const letters: Record<string, IWordleLetterStatus> = {}
+	const calculateLetterStatus = (data: string[]) => {
+		const wordArray = word.split('')
+		const wordLettersCount = getWordLettersCount(word)
+		const letterStatus: Record<string, IWordleLetterStatus> = {}
 
-	tries.forEach((tried) => {
-		const triedArray = tried.split('')
-		triedArray.forEach((letter) => {
-			if (!letters[letter]) letters[letter] = IWordleLetterStatus.absent
+		data.forEach((tried: string) => {
+			const triedArray = tried.split('')
+			triedArray.forEach((letter) => {
+				if (!letterStatus[letter]) {
+					letterStatus[letter] = IWordleLetterStatus.absent
+				}
+			})
+			triedArray.forEach((letter, index) => {
+				if (letter === wordArray[index]) {
+					letterStatus[letter] = IWordleLetterStatus.correct
+					wordLettersCount[letter] -= 1
+				}
+			})
+			triedArray.forEach((letter) => {
+				if (word.includes(letter) && wordLettersCount[letter] > 0) {
+					letterStatus[letter] = IWordleLetterStatus.present
+					wordLettersCount[letter] -= 1
+				}
+			})
 		})
-		triedArray.forEach((letter, index) => {
-			if (letter === wordArray[index]) {
-				letters[letter] = IWordleLetterStatus.correct
-				wordLettersCount[letter] -= 1
-			}
-		})
-		triedArray.forEach((letter) => {
-			if (word.includes(letter) && wordLettersCount[letter] > 0) {
-				letters[letter] = IWordleLetterStatus.present
-				wordLettersCount[letter] -= 1
-			}
-		})
-	})
+
+		setLetters(letterStatus)
+	}
 
 	const getLetterStatus = (letter: string): string => {
-		const currentLetter = letters[letter]
-		if (currentLetter) return statusColorOptions[currentLetter]
-		return 'bg-base-300 text-on-base'
+		const current = letters[letter]
+		if (!current) return 'bg-base-300 text-on-base'
+		return statusColorOptions[current]
 	}
 
-	const keysRow1 = [
-		{ key: 'q', children: 'q', onClick: () => onKey('q') },
-		{ key: 'w', children: 'w', onClick: () => onKey('w') },
-		{ key: 'e', children: 'e', onClick: () => onKey('e') },
-		{ key: 'r', children: 'r', onClick: () => onKey('r') },
-		{ key: 't', children: 't', onClick: () => onKey('t') },
-		{ key: 'y', children: 'y', onClick: () => onKey('y') },
-		{ key: 'u', children: 'u', onClick: () => onKey('u') },
-		{ key: 'i', children: 'i', onClick: () => onKey('i') },
-		{ key: 'o', children: 'o', onClick: () => onKey('o') },
-		{ key: 'p', children: 'p', onClick: () => onKey('p') },
-	]
-	const keysRow2 = [
-		{ key: 'a', children: 'a', onClick: () => onKey('a') },
-		{ key: 's', children: 's', onClick: () => onKey('s') },
-		{ key: 'd', children: 'd', onClick: () => onKey('d') },
-		{ key: 'f', children: 'f', onClick: () => onKey('f') },
-		{ key: 'g', children: 'g', onClick: () => onKey('g') },
-		{ key: 'h', children: 'h', onClick: () => onKey('h') },
-		{ key: 'j', children: 'j', onClick: () => onKey('j') },
-		{ key: 'k', children: 'k', onClick: () => onKey('k') },
-		{ key: 'l', children: 'l', onClick: () => onKey('l') },
-	]
-	const keysRow3 = [
-		{ key: 'Enter', children: 'Enter', onClick: () => onEnter() },
-		{ key: 'z', children: 'z', onClick: () => onKey('z') },
-		{ key: 'x', children: 'x', onClick: () => onKey('x') },
-		{ key: 'c', children: 'c', onClick: () => onKey('c') },
-		{ key: 'v', children: 'v', onClick: () => onKey('v') },
-		{ key: 'b', children: 'b', onClick: () => onKey('b') },
-		{ key: 'n', children: 'n', onClick: () => onKey('n') },
-		{ key: 'm', children: 'm', onClick: () => onKey('m') },
-		{
-			key: 'Backspace',
-			children: <Icon>backspace</Icon>,
-			onClick: () => onBackspace(),
-		},
+	const keys = [
+		[
+			{ key: 'q', children: 'q' },
+			{ key: 'w', children: 'w' },
+			{ key: 'e', children: 'e' },
+			{ key: 'r', children: 'r' },
+			{ key: 't', children: 't' },
+			{ key: 'y', children: 'y' },
+			{ key: 'u', children: 'u' },
+			{ key: 'i', children: 'i' },
+			{ key: 'o', children: 'o' },
+			{ key: 'p', children: 'p' },
+		],
+		[
+			{ key: 'a', children: 'a' },
+			{ key: 's', children: 's' },
+			{ key: 'd', children: 'd' },
+			{ key: 'f', children: 'f' },
+			{ key: 'g', children: 'g' },
+			{ key: 'h', children: 'h' },
+			{ key: 'j', children: 'j' },
+			{ key: 'k', children: 'k' },
+			{ key: 'l', children: 'l' },
+		],
+		[
+			{ key: 'Enter', children: 'Enter' },
+			{ key: 'z', children: 'z' },
+			{ key: 'x', children: 'x' },
+			{ key: 'c', children: 'c' },
+			{ key: 'v', children: 'v' },
+			{ key: 'b', children: 'b' },
+			{ key: 'n', children: 'n' },
+			{ key: 'm', children: 'm' },
+			{ key: 'Backspace', children: <Icon>backspace</Icon> },
+		],
 	]
 
 	return (
 		<div className='flex flex-col gap-2'>
-			<div className='flex justify-center gap-2'>
-				{keysRow1.map((item, index) => (
-					<Button
-						key={index}
-						disabled={disabled}
-						className={getLetterStatus(item.key)}
-						onClick={item.onClick}
-					>
-						{item.children}
-					</Button>
-				))}
-			</div>
-			<div className='flex justify-center gap-2'>
-				{keysRow2.map((item, index) => (
-					<Button
-						key={index}
-						disabled={disabled}
-						className={getLetterStatus(item.key)}
-						onClick={item.onClick}
-					>
-						{item.children}
-					</Button>
-				))}
-			</div>
-			<div className='flex justify-center gap-2'>
-				{keysRow3.map((item, index) => (
-					<Button
-						key={index}
-						disabled={disabled}
-						className={getLetterStatus(item.key)}
-						onClick={item.onClick}
-					>
-						{item.children}
-					</Button>
-				))}
-			</div>
+			{keys.map((row, rowIndex) => (
+				<div key={`row-${rowIndex}`} className='flex justify-center gap-2'>
+					{row.map((item, keyIndex) => (
+						<Button
+							key={`key-${keyIndex}`}
+							disabled={disabled}
+							className={getLetterStatus(item.key)}
+							onClick={() => handleKeyPress(item.key)}
+						>
+							{item.children}
+						</Button>
+					))}
+				</div>
+			))}
 		</div>
 	)
 }
