@@ -87,7 +87,6 @@ const Modal = (props: ModalPops) => {
 								initial='hidden'
 								animate='visible'
 								exit='exit'
-								className='flex items-center'
 								onClick={handleContentClick}
 							>
 								{children}

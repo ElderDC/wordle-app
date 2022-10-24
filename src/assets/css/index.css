@@ -183,7 +183,10 @@ body {
 		bg-black/50 transition overflow-x-hidden;
 	}
 	.modal {
-		@apply min-h-full py-12 flex justify-center;
+		@apply min-h-full flex justify-center;
+	}
+	.modal > div {
+		@apply p-12 max-w-full flex items-center;
 	}
 
 	/* Snackbar component */
