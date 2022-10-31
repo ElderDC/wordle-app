@@ -138,7 +138,7 @@ const Home = () => {
 
 	return (
 		<AnimatePage>
-			<Card className='max-w-2xl my-8 mx-auto'>
+			<Card className='max-w-2xl mx-auto'>
 				<CardHead className='flex items-center justify-between gap-2 pb-8'>
 					<div className='flex'>
 						<Tooltip bottom content={'Información'}>

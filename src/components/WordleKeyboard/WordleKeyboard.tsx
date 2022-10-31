@@ -128,6 +128,7 @@ const WordleKeyboard = (props: WordleKeyboardProps) => {
 						<Button
 							key={`key-${keyIndex}`}
 							disabled={disabled}
+							size="sm"
 							className={getLetterStatus(item.key)}
 							onClick={() => handleKeyPress(item.key)}
 						>
