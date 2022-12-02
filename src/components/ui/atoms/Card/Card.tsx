@@ -7,7 +7,7 @@ const noop = (): false => {
 
 type Handler = (_event: React.MouseEvent) => void
 
-interface CardPops {
+interface CardProps {
 	bgColor?: string
 	bgImage?: boolean
 	children?: undefined | React.ReactNode | React.ReactNode[]
@@ -24,7 +24,7 @@ interface CardPops {
 	onMouseUp?: Handler
 }
 
-const Card = (props: CardPops) => {
+const Card = (props: CardProps) => {
 	const {
 		bgColor = 'bg-white',
 		bgImage,
