@@ -14,7 +14,7 @@ function App() {
 			<Suspense
 				fallback={<Progress indeterminate color='bg-on-base' className='h-1' />}
 			>
-				<AnimatePresence exitBeforeEnter>
+				<AnimatePresence mode='wait'>
 					<Routes location={location} key={location.pathname}>
 						<Route path='/' element={<Navigate to={PublicRoutes.HOME} />} />
 						<Route path={PublicRoutes.HOME} element={<Home />} />
